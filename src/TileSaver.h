@@ -31,13 +31,13 @@ class TileSaver : public BScreenSaver
 {
 	typedef BScreenSaver inherited;
 public:
-			 TileSaver(BMessage *pMsg, image_id id);
+			 TileSaver(BMessage* pMsg, image_id id);
 	virtual 	 ~TileSaver(void);
 	
 	// Hook functions.
-	virtual void 	 Draw(BView *pView, int32 frame);
-	virtual void 	 StartConfig(BView *pConfigView);
-	virtual status_t StartSaver(BView *pView, bool preview);
+	virtual void 	 Draw(BView* pView, int32 frame);
+	virtual void 	 StartConfig(BView* pConfigView);
+	virtual status_t StartSaver(BView* pView, bool preview);
 
 private:
 			 TileSaver(const TileSaver &orig);
