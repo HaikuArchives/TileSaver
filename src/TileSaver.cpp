@@ -18,9 +18,9 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <image.h>
 
 #include <GraphicsDefs.h>
-#include <image.h>
 #include <List.h>
 #include <Message.h>
 #include <OS.h>
@@ -46,8 +46,8 @@ instantiate_screen_saver(BMessage *pMsg, image_id id)
 
 TileSaver::TileSaver(BMessage *pMsg, image_id id)
 :	inherited(pMsg, id),
-	mLimit(0),
-	mRects()
+	fLimit(0),
+	fRects()
 {
 	srand((long)system_time());
 }
@@ -61,12 +61,12 @@ void
 TileSaver::Draw(BView *pView, int32 frame)
 {
 	const BRect bounds = pView->Bounds();
-	if (frame % mLimit == 0) {
+	if (frame % fLimit == 0) {
 		DisposeRectList();
-		mRects.AddItem(new BRect(bounds));
+		fRects.AddItem(new BRect(bounds));
 	}
 
-	BRect *pRect = (BRect *)mRects.RemoveItem((int32)0);
+	BRect *pRect = (BRect *)fRects.RemoveItem((int32)0);
 	pView->SetHighColor(RandomColor(0.2, 1.0, 0.2, 1.0));
 	pView->FillRect(*pRect);
 	pView->StrokeRect(*pRect, B_SOLID_LOW);
@@ -83,11 +83,11 @@ TileSaver::Draw(BView *pView, int32 frame)
 		rect2 = BRect(pRect->left, ySplit, pRect->right, pRect->bottom);
 	}
 	if (randomFloat() < 0.5) {
-		mRects.AddItem(new BRect(rect1));
-		mRects.AddItem(new BRect(rect2));
+		fRects.AddItem(new BRect(rect1));
+		fRects.AddItem(new BRect(rect2));
 	} else {
-		mRects.AddItem(new BRect(rect2));
-		mRects.AddItem(new BRect(rect1));
+		fRects.AddItem(new BRect(rect2));
+		fRects.AddItem(new BRect(rect1));
 	}
 	
 	delete pRect;
@@ -124,14 +124,14 @@ status_t
 TileSaver::StartSaver(BView * /*pView*/, bool preview)
 {
 	SetTickSize(preview ? 100000 : 10000);	// 0.1/0.01 seconds
-	mLimit = preview ? 256 : 2048;
+	fLimit = preview ? 256 : 2048;
 	return B_OK;
 }
 
 void
 TileSaver::DisposeRectList(void)
 {
-	while (!mRects.IsEmpty()) {
-		delete mRects.RemoveItem(mRects.CountItems() - 1);
+	while (!fRects.IsEmpty()) {
+		delete fRects.RemoveItem(fRects.CountItems() - 1);
 	}
 }
