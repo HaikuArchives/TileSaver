@@ -30,13 +30,13 @@ public:
 	operator rgb_color(void) const;
 
 private:
-	rgb_color mColor;
+	rgb_color fColor;
 };
 
 inline
 RandomColor::operator rgb_color(void) const
 {
-	return mColor;
+	return fColor;
 }
 
 #endif // RANDOMCOLOR_H
