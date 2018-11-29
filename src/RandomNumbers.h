@@ -21,6 +21,7 @@
 
 #include <cstdlib>
 
+
 // Generate a random float from [min, max).
 inline float
 randomFloat(const float min = 0.0f, const float max = 1.0f)
@@ -28,12 +29,14 @@ randomFloat(const float min = 0.0f, const float max = 1.0f)
 	return min + (max - min) * (float)rand() / ((float)RAND_MAX + 1.0f);
 }
 
+
 // Generate a random double from [min, max).
 inline double
 randomDouble(const double min = 0.0, const double max = 1.0)
 {
 	return min + (max - min) * (double)rand() / ((double)RAND_MAX + 1.0);
 }
+
 
 // Generate a random integer.
 inline int
