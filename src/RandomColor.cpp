@@ -39,13 +39,13 @@ rgb(float q1, float q2, int hue)
 
 
 RandomColor::RandomColor(float minL, float maxL, float minS, float maxS,
-								int hue)
+						 int hue)
 {
 	if (hue < 0)
 		hue = randomInteger(360);
 	else
 		hue %= 360;
-		
+
 	float lightness  = minL + randomFloat() * (maxL-minL);
 	float saturation = minS + randomFloat() * (maxS-minS);
 
@@ -54,9 +54,9 @@ RandomColor::RandomColor(float minL, float maxL, float minS, float maxS,
 		? lightness * (saturation + 1.0)
 		: lightness + saturation - lightness*saturation;
 	float p1 = 2.0*lightness - p2;
-	
+
 	if (saturation == 0.0) {
-		fColor.red =		(int)(255.0 * lightness);
+		fColor.red 	=		(int)(255.0 * lightness);
 		fColor.green =		(int)(255.0 * lightness);
 		fColor.blue =		(int)(255.0 * lightness);
 	} else {
