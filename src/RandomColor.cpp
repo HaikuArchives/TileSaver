@@ -22,6 +22,7 @@
 #include "RandomColor.h"
 #include "RandomNumbers.h"
 
+
 inline float
 rgb(float q1, float q2, int hue)
 {
@@ -36,8 +37,9 @@ rgb(float q1, float q2, int hue)
 		return q1;
 }
 
+
 RandomColor::RandomColor(float minL, float maxL, float minS, float maxS,
-								 int hue)
+								int hue)
 {
 	if (hue < 0)
 		hue = randomInteger(360);
