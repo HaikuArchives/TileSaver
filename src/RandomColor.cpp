@@ -59,12 +59,12 @@ RandomColor::RandomColor(float minL, float maxL, float minS, float maxS,
 	float p1 = 2.0*lightness - p2;
 	
 	if (saturation == 0.0) {
-		mColor.red =		(int)(255.0 * lightness);
-		mColor.green =		(int)(255.0 * lightness);
-		mColor.blue =		(int)(255.0 * lightness);
+		fColor.red =		(int)(255.0 * lightness);
+		fColor.green =		(int)(255.0 * lightness);
+		fColor.blue =		(int)(255.0 * lightness);
 	} else {
-		mColor.red =		(int)(255.0 * rgb(p1, p2, hue + 120));
-		mColor.green =		(int)(255.0 * rgb(p1, p2, hue));
-		mColor.blue =		(int)(255.0 * rgb(p1, p2, hue - 120));
+		fColor.red =		(int)(255.0 * rgb(p1, p2, hue + 120));
+		fColor.green =		(int)(255.0 * rgb(p1, p2, hue));
+		fColor.blue =		(int)(255.0 * rgb(p1, p2, hue - 120));
 	}
 }
