@@ -108,15 +108,13 @@ TileSaver::StartConfig(BView* pConfigView)
 		new BTextView(frame, "TileSaver", frame.OffsetToCopy(B_ORIGIN),
 			B_FOLLOW_ALL, B_WILL_DRAW);
 	pCaption->SetText("TileSaver\n"
-					"\n"
-					"\t© 1999  Jens Kilian <jjk@acm.org>\n"
-					"\n"
-					"TileSaver comes with ABSOLUTELY NO WARRANTY;"
-					"it is free software, and you are welcome"
-					"to redistribute it under certain conditions."
-					"See the GNU General Public License for details."
-					"\n"
-					);
+		"\n"
+		"\t© 1999  Jens Kilian <jjk@acm.org>\n"
+		"\n"
+		"TileSaver comes with ABSOLUTELY NO WARRANTY; it is free software, "
+		"and you are welcome to redistribute it under certain conditions.\n"
+		"See the GNU General Public License for details.\n");
+	pConfigView->AddChild(pCaption);
 	pConfigView->AddChild(pCaption);
 	pCaption->SetViewColor(pConfigView->ViewColor());
 	pCaption->SetStylable(true);
