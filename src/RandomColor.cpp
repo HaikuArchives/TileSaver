@@ -22,32 +22,29 @@
 #include "RandomColor.h"
 #include "RandomNumbers.h"
 
+
 inline float
 rgb(float q1, float q2, int hue)
 {
 	hue = (hue + 360) % 360;
-	if (hue < 60) {
+	if (hue < 60)
 		return q1 + (q2-q1) * hue / 60.0;
-
-	} else if (hue < 180) {
+	else if (hue < 180)
 		return q2;
-
-	} else if (hue < 240) {	
+	else if (hue < 240)
 		return q1 + (q2-q1) * (240 - hue) / 60.0;
-	
-	} else {
+	else
 		return q1;
-	}
 }
 
+
 RandomColor::RandomColor(float minL, float maxL, float minS, float maxS,
-								 int hue)
+						 int hue)
 {
-	if (hue < 0) {
+	if (hue < 0)
 		hue = randomInteger(360);
-	} else {
+	else
 		hue %= 360;
-	}
 
 	float lightness  = minL + randomFloat() * (maxL-minL);
 	float saturation = minS + randomFloat() * (maxS-minS);
@@ -57,14 +54,14 @@ RandomColor::RandomColor(float minL, float maxL, float minS, float maxS,
 		? lightness * (saturation + 1.0)
 		: lightness + saturation - lightness*saturation;
 	float p1 = 2.0*lightness - p2;
-	
+
 	if (saturation == 0.0) {
-		mColor.red =		(int)(255.0 * lightness);
-		mColor.green =		(int)(255.0 * lightness);
-		mColor.blue =		(int)(255.0 * lightness);
+		fColor.red 	=		(int)(255.0 * lightness);
+		fColor.green =		(int)(255.0 * lightness);
+		fColor.blue =		(int)(255.0 * lightness);
 	} else {
-		mColor.red =		(int)(255.0 * rgb(p1, p2, hue + 120));
-		mColor.green =		(int)(255.0 * rgb(p1, p2, hue));
-		mColor.blue =		(int)(255.0 * rgb(p1, p2, hue - 120));
+		fColor.red =		(int)(255.0 * rgb(p1, p2, hue + 120));
+		fColor.green =		(int)(255.0 * rgb(p1, p2, hue));
+		fColor.blue =		(int)(255.0 * rgb(p1, p2, hue - 120));
 	}
 }

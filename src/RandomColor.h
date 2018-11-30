@@ -24,19 +24,17 @@
 
 class RandomColor {
 public:
-	RandomColor(float minL, float maxL, float minS, float maxS,
-					int hue = -1);
-	
-	operator rgb_color(void) const;
-
+			RandomColor(float minL, float maxL, float minS,
+						float maxS, int hue = -1);
+			operator rgb_color(void) const;
 private:
-	rgb_color mColor;
+	rgb_color 	fColor;
 };
 
 inline
 RandomColor::operator rgb_color(void) const
 {
-	return mColor;
+	return fColor;
 }
 
 #endif // RANDOMCOLOR_H

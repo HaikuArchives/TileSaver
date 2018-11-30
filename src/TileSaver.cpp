@@ -18,9 +18,9 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <image.h>
 
 #include <GraphicsDefs.h>
-#include <image.h>
 #include <List.h>
 #include <Message.h>
 #include <OS.h>
@@ -35,38 +35,43 @@
 #include "RandomColor.h"
 #include "RandomNumbers.h"
 
+
 const rgb_color kBlack = { 0, 0, 0, 0 };
 
+
 // Screen saver interface.
-BScreenSaver *
-instantiate_screen_saver(BMessage *pMsg, image_id id)
+BScreenSaver*
+instantiate_screen_saver(BMessage* pMsg, image_id id)
 {
 	return new TileSaver(pMsg, id);
 }
 
-TileSaver::TileSaver(BMessage *pMsg, image_id id)
+
+TileSaver::TileSaver(BMessage* pMsg, image_id id)
 :	inherited(pMsg, id),
-	mLimit(0),
-	mRects()
+	fLimit(0),
+	fRects()
 {
 	srand((long)system_time());
 }
+
 
 TileSaver::~TileSaver(void)
 {
 	DisposeRectList();
 }
 
+
 void
-TileSaver::Draw(BView *pView, int32 frame)
+TileSaver::Draw(BView* pView, int32 frame)
 {
 	const BRect bounds = pView->Bounds();
-	if (frame % mLimit == 0) {
+	if (frame % fLimit == 0) {
 		DisposeRectList();
-		mRects.AddItem(new BRect(bounds));
+		fRects.AddItem(new BRect(bounds));
 	}
 
-	BRect *pRect = (BRect *)mRects.RemoveItem((int32)0);
+	BRect* pRect = (BRect*)fRects.RemoveItem((int32)0);
 	pView->SetHighColor(RandomColor(0.2, 1.0, 0.2, 1.0));
 	pView->FillRect(*pRect);
 	pView->StrokeRect(*pRect, B_SOLID_LOW);
@@ -83,55 +88,56 @@ TileSaver::Draw(BView *pView, int32 frame)
 		rect2 = BRect(pRect->left, ySplit, pRect->right, pRect->bottom);
 	}
 	if (randomFloat() < 0.5) {
-		mRects.AddItem(new BRect(rect1));
-		mRects.AddItem(new BRect(rect2));
+		fRects.AddItem(new BRect(rect1));
+		fRects.AddItem(new BRect(rect2));
 	} else {
-		mRects.AddItem(new BRect(rect2));
-		mRects.AddItem(new BRect(rect1));
+		fRects.AddItem(new BRect(rect2));
+		fRects.AddItem(new BRect(rect1));
 	}
-	
+
 	delete pRect;
-	
 	pView->Sync();
 }
 
+
 void
-TileSaver::StartConfig(BView *pConfigView)
+TileSaver::StartConfig(BView* pConfigView)
 {
 	/*const*/ BRect frame = pConfigView->Bounds().InsetBySelf(10.0, 10.0);
-	BTextView *pCaption =
+	BTextView* pCaption =
 		new BTextView(frame, "TileSaver", frame.OffsetToCopy(B_ORIGIN),
-							B_FOLLOW_ALL, B_WILL_DRAW);
+			B_FOLLOW_ALL, B_WILL_DRAW);
 	pCaption->SetText("TileSaver\n"
-							"\n"
-							"\t© 1999  Jens Kilian <jjk@acm.org>\n"
-							"\n"
-							"TileSaver comes with ABSOLUTELY NO WARRANTY; "
-							"it is free software, and you are welcome "
-							"to redistribute it under certain conditions.  "
-							"See the GNU General Public License for details.");
+		"\n"
+		"\t© 1999  Jens Kilian <jjk@acm.org>\n"
+		"\n"
+		"TileSaver comes with ABSOLUTELY NO WARRANTY; it is free software, "
+		"and you are welcome to redistribute it under certain conditions.\n"
+		"See the GNU General Public License for details.\n");
+	pConfigView->AddChild(pCaption);
 	pConfigView->AddChild(pCaption);
 	pCaption->SetViewColor(pConfigView->ViewColor());
 	pCaption->SetStylable(true);
 	pCaption->SetFontAndColor(be_plain_font);
-	const char *pText = pCaption->Text();
+	const char* pText = pCaption->Text();
 	pCaption->SetFontAndColor(0, strchr(pText, '\n') - pText, be_bold_font);
 	pCaption->MakeEditable(FALSE);
 	pCaption->MakeSelectable(FALSE);
 }
 
+
 status_t
-TileSaver::StartSaver(BView * /*pView*/, bool preview)
+TileSaver::StartSaver(BView* /*pView*/, bool preview)
 {
 	SetTickSize(preview ? 100000 : 10000);	// 0.1/0.01 seconds
-	mLimit = preview ? 256 : 2048;
+	fLimit = preview ? 256 : 2048;
 	return B_OK;
 }
+
 
 void
 TileSaver::DisposeRectList(void)
 {
-	while (!mRects.IsEmpty()) {
-		delete mRects.RemoveItem(mRects.CountItems() - 1);
-	}
+	while (!fRects.IsEmpty())
+		delete fRects.RemoveItem(fRects.CountItems() - 1);
 }
